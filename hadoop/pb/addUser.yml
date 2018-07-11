@@ -1,0 +1,24 @@
+---
+# Playbook for creating new user and copy its public ssh key on ansible nodemanager
+- name: Add user and copy its public ssh key
+  hosts: alldoop
+ 
+  tasks:
+    - name: Add user to remote host
+      include_role:
+        name: addUserOS
+      vars:
+        username: 'hadoop'
+#        group: 'hadoop'
+        pwd: 'pa55w0rd'
+        generate_key: 'yes'
+        ssh_key_comment: "{{ username}}"   
+
+    - name: Copy public SSH key to localhost
+      fetch:
+        src:  /home/hadoop/.ssh/id_rsa.pub
+        dest: /home/hadoop/ansible/hadoop/host_keys/prefix-{{ inventory_hostname }}
+        flat: yes
+      become: yes
+      become_method: su
+      become_user: hadoop

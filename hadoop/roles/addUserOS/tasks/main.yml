@@ -1,0 +1,10 @@
+---
+# tasks file for addUserOS
+- name: Add new user to machine
+  user:
+    name: "{{ username}}"
+#    group: "{{ group }}"
+    password: "{{ pwd | password_hash('sha512') }}"
+    generate_ssh_key: "{{ generate_key }}"
+    state: present
+    system: yes

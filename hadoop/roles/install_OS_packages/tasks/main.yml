@@ -1,0 +1,12 @@
+---
+# tasks file for install_OS_packages
+
+- name: Installing packages on RedHat family
+  import_tasks: install_redhat_packages.yml
+  when: ansible_distribution|lower == 'redhat' or ansible_distribution|lower == 'centos'
+
+- name: Installing packages on Debian family       
+  import_tasks: install_debian_ubuntu_packages.yml
+  when: ansible_distribution|lower == 'debian' or ansible_distribution|lower == 'ubuntu'
+
+

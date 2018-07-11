@@ -1,0 +1,16 @@
+
+---
+# Playbook for propagating public SSH to hosts
+- name: Deploy SSH public key
+  hosts: alldoop
+
+  tasks:
+    - name: Using role to propagate SSH keys
+      include_role:
+        name: addKey
+      vars:
+        user: "hadoop"
+        keys_directory: "/home/hadoop/ansible/hadoop/host_keys"
+      become: yes
+      become_method: su
+      become_user: hadoop

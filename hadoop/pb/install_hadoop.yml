@@ -1,0 +1,46 @@
+
+---
+# Playbook for Hadoop installation
+- name: Hadoop installation
+  hosts: alldoop
+  tasks:
+    - name: Starting Hadoop installation for "{{ inventory_hostname }}"
+      become: yes
+      include_role:
+        name: install_binary
+      vars:
+        dest_directory: /opt/hadoop
+        owner: hadoop
+        group: hadoop
+        remote: yes
+        path_to_file: http://ftp.cixug.es/apache/hadoop/common/hadoop-2.7.6/hadoop-2.7.6.tar.gz
+
+
+    - name: Installing system packages needed for Hadoop on "{{ inventory_hostname }}"
+      become: yes
+      include_role:
+        name: install_OS_packages
+      vars:
+        pkg_list:
+          [java-1.8.0-openjdk]
+
+    - name: Set new Java version as default
+      include_role:
+        name: alternatives_setting
+      vars:
+        product: java
+        path_to_product: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64/jre/bin/java
+        path_to_link: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64/jre/bin/java
+      become: yes # ¿?
+
+
+    - name: Add new binaries path (Hadoop and Java) to PATH
+      lineinfile:
+        path: /home/hadoop/.bashrc
+        line:   "{{ item }}"
+      with_items:
+        - 'export HADOOP_HOME=/opt/hadoop'
+        - 'export PATH="$PATH:/$HADOOP_HOME/bin:$HADOOP_HOME/sbin"'
+        - 'export JAVA_HOME=/usr/lib/java-1.8.0'
+
+

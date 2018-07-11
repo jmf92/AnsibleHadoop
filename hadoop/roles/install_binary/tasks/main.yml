@@ -1,0 +1,21 @@
+---
+# tasks file for install package from binaries
+
+- name: Creating directory for "{{ path_to_file  }}"    
+  file:
+    path: "{{ dest_directory  }}"
+    state: directory
+    owner: "{{ owner}}"
+    group: "{{ group }}"
+
+- name: Unpacking "{{ path_to_file  }}"
+  unarchive:
+    dest:  "{{ dest_directory }}"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    remote_src: "{{ remote }}"
+    src: "{{ path_to_file }}"
+    extra_opts: [--strip-components=1]
+
+
+

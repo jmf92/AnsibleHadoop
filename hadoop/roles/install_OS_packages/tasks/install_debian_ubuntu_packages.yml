@@ -1,0 +1,13 @@
+---
+# Task for installing packages with apt (Ubuntu or Debian)
+
+- name: update and install packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    "{{ pkg_list }}"
+
+

@@ -1,0 +1,13 @@
+---
+# Install packages on redHat
+
+- name: update system packages and install new packages
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    "{{ pkg_list }}"
+
+

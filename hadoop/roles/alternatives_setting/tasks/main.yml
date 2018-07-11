@@ -1,0 +1,8 @@
+---
+# tasks file for setting common programs through alternatives
+
+- name: Set  "{{ product}}" through alternatives
+  alternatives:
+    name: "{{ product }}"
+    link : "{{path_to_link }}"
+    path: "{{ path_to_product}}" 

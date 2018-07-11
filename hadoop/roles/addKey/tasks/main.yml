@@ -1,0 +1,9 @@
+---
+# tasks file for addKey
+- name: Add public key to hosts
+  authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', item) }}"
+  with_fileglob: 
+    - "{{ keys_directory }}/*"
